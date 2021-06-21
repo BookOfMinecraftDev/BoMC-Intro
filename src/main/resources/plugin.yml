@@ -1,0 +1,13 @@
+# Required
+name: ${name}
+version: ${version}
+main: ${groupId}.${artifactId}.IntroPlugin
+
+# Optional
+description: ${description}
+author: ${author}
+
+commands:
+   intro:
+      description: Displays the introduction
+      usage: /intro
