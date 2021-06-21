@@ -1,13 +1,15 @@
-package com.bomc.intro;
+package com.BoMC.Intro.core;
 
 import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.BoMC.Intro.Intro;
+
 public class TitleTask extends BukkitRunnable {
 
-	private IntroPlugin plugin;
+	private Intro plugin;
 	private Player player;
 	private int count;
 	private List<String> paragraphs;
@@ -15,7 +17,7 @@ public class TitleTask extends BukkitRunnable {
 	private int time;
 	private int fadeOut;
 
-	public TitleTask(IntroPlugin p, Player pl, List<String> pa, int fi, int t, int fo) {
+	public TitleTask(Intro p, Player pl, List<String> pa, int fi, int t, int fo) {
 		plugin = p;
 		player = pl;
 		count = 0;

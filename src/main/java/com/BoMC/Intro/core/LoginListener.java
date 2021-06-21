@@ -1,14 +1,16 @@
-package com.bomc.intro;
+package com.BoMC.Intro.core;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
+import com.BoMC.Intro.Intro;
+
 public class LoginListener implements Listener {
 
-	private IntroPlugin plugin;
+	private Intro plugin;
 
-	public LoginListener(IntroPlugin pl) {
+	public LoginListener(Intro pl) {
 		plugin = pl;
 	}
 

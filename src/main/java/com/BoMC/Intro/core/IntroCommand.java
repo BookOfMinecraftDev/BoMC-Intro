@@ -1,15 +1,17 @@
-package com.bomc.intro;
+package com.BoMC.Intro.core;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.BoMC.Intro.Intro;
+
 public class IntroCommand implements CommandExecutor {
 
-	private IntroPlugin plugin;
+	private Intro plugin;
 
-	public IntroCommand(IntroPlugin p) {
+	public IntroCommand(Intro p) {
 		plugin = p;
 	}
 

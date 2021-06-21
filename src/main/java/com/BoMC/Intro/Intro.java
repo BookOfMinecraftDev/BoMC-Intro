@@ -1,4 +1,4 @@
-package com.bomc.intro;
+package com.BoMC.Intro;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,7 +11,11 @@ import java.util.stream.Stream;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class IntroPlugin extends JavaPlugin {
+import com.BoMC.Intro.core.IntroCommand;
+import com.BoMC.Intro.core.LoginListener;
+import com.BoMC.Intro.core.TitleTask;
+
+public class Intro extends JavaPlugin {
 
 	private List<String> paragraphs;
 
@@ -21,6 +25,7 @@ public class IntroPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
 		saveDefaultConfig();
 		saveResource("intro.txt", false);
 
@@ -29,7 +34,9 @@ public class IntroPlugin extends JavaPlugin {
 
 		int i = 1;
 		for (String s : paragraphs) {
+			
 			getLogger().info("Message " + i + ": '" + s + "'");
+			
 		}
 
 		displayed = convertStringToUUID(getConfig().getStringList("players-who-have-seen-intro"));
@@ -41,48 +48,72 @@ public class IntroPlugin extends JavaPlugin {
 		getCommand("intro").setExecutor(new IntroCommand(this));
 
 		getLogger().info("Enabled!");
+		
 	}
 
 	@Override
 	public void onDisable() {
+		
 		getConfig().set("players-who-have-seen-intro", convertUUIDToString(displayed));
 		saveConfig();
 		getLogger().info("Disabled!");
+		
 	}
 
 	public boolean hasDisplayed(Player player) {
+		
 		return displayed.contains(player.getUniqueId());
+		
 	}
 
 	public void addDisplayed(Player player) {
+		
 		displayed.add(player.getUniqueId());
+		
 	}
 
 	public List<String> getParagraphs() {
+		
 		return paragraphs;
+		
 	}
 
 	public int getTime() {
+		
 		return time;
+		
 	}
 
 	public void display(Player player) {
+		
 		new TitleTask(this, player, paragraphs, time * 5, time * 10, time * 5).runTaskTimer(this, 0, time * 20);
+		
 	}
 
 	public List<String> convertUUIDToString(List<UUID> list) {
+		
 		List<String> newList = new ArrayList<String>();
+		
 		for (UUID id : list) {
+			
 			newList.add(id.toString());
+			
 		}
+		
 		return newList;
 	}
 
 	public List<UUID> convertStringToUUID(List<String> list) {
+		
 		List<UUID> newList = new ArrayList<UUID>();
+		
 		for (String s : list) {
+			
 			newList.add(UUID.fromString(s));
+			
 		}
+		
 		return newList;
+		
 	}
 }
