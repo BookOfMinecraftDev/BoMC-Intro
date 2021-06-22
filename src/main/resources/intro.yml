@@ -1,0 +1,21 @@
+# Start value is required.
+# If you delete the start value the plugin will throw an error and break.
+blindness: true
+title1:
+     title: Welcome to the server!
+     sub:
+     title-color: green
+     sub-color: green
+     time: 60
+     fade: true
+     fade-in: 10
+     fade-out: 10
+title2:
+     title: Please enjoy your stay!
+     sub:
+     title-color: blue
+     sub-color: blue
+     time: 60
+     fade: true
+     fade-in: 10
+     fade-out: 10

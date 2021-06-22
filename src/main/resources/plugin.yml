@@ -11,4 +11,7 @@ commands:
    intro:
       description: Displays the introduction
       usage: /intro
+      permission: bomci.intro
 permissions:
+   bomci.intro:
+      default: op;

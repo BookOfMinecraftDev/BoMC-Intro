@@ -9,22 +9,18 @@ import com.BoMC.Intro.Intro;
 
 public class IntroCommand implements CommandExecutor {
 
-	private Intro plugin;
-
-	public IntroCommand(Intro p) {
-		plugin = p;
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) {
-			sender.sendMessage("You must be a player to access that command!");
-			return false;
+		
+		if (sender instanceof Player && sender.hasPermission("bomci.intro")) {
+			
+			Intro.display((Player) sender);
+			return true;
+			
 		}
-		Player player = (Player) sender;
-		plugin.display(player);
-		player.sendMessage("Displaying introduction");
-		return true;
+		
+		return false;
+		
 	}
 
 }

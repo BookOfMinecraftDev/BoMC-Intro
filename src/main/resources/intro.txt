@@ -1,5 +1,0 @@
-Title1|Subtitle1
-Title2|Subtitle2
-Title3|Subtitle3
-Title4|Subtitle4
-Title5|Subtitle5

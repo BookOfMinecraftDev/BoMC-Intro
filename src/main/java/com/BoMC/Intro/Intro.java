@@ -1,35 +1,51 @@
 package com.BoMC.Intro;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import com.BoMC.Intro.core.IO;
 import com.BoMC.Intro.core.IntroCommand;
 import com.BoMC.Intro.core.LoginListener;
-import com.BoMC.Intro.core.TitleTask;
+import com.BoMC.Intro.core.Title;
 
 public class Intro extends JavaPlugin {
 
-	private List<String> paragraphs;
-
-	private List<UUID> displayed;
-
-	private int time;
+	public static List<Title> titles;
+	public static List<UUID> seen;
+	
+	public static int totalLength;
+	public static boolean blindness;
+	
+	public static FileConfiguration intro;
+	
+	public static FileConfiguration config() {
+		
+		return Bukkit.getPluginManager().getPlugin("BoMC-Intro").getConfig();
+		
+	}
 
 	@Override
 	public void onEnable() {
 		
+		// Save intro.yml
+		saveResource("intro.yml", false);
+		
+		intro = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "intro.yml"));
+		
+		// Config data
 		saveDefaultConfig();
-		saveResource("intro.txt", false);
+		IO.load(intro);
 
-		Stream<String> file = new BufferedReader(new InputStreamReader(getResource("intro.txt"))).lines();
+		/*Stream<String> file = new BufferedReader(new InputStreamReader(getResource("intro.txt"))).lines();
 		paragraphs = file.collect(Collectors.toList());
 
 		int i = 1;
@@ -37,83 +53,43 @@ public class Intro extends JavaPlugin {
 			
 			getLogger().info("Message " + i + ": '" + s + "'");
 			
-		}
+		}*/
 
-		displayed = convertStringToUUID(getConfig().getStringList("players-who-have-seen-intro"));
-
-		time = getConfig().getInt("time-between-messages");
-
-		getServer().getPluginManager().registerEvents(new LoginListener(this), this);
-
-		getCommand("intro").setExecutor(new IntroCommand(this));
-
-		getLogger().info("Enabled!");
+		// Register listeners and commands
+		getServer().getPluginManager().registerEvents(new LoginListener(), this);
+		getCommand("intro").setExecutor(new IntroCommand());
 		
 	}
 
 	@Override
 	public void onDisable() {
 		
-		getConfig().set("players-who-have-seen-intro", convertUUIDToString(displayed));
+		IO.save();
 		saveConfig();
-		getLogger().info("Disabled!");
 		
 	}
 
-	public boolean hasDisplayed(Player player) {
+	public static void display(Player player) {
 		
-		return displayed.contains(player.getUniqueId());
-		
-	}
-
-	public void addDisplayed(Player player) {
-		
-		displayed.add(player.getUniqueId());
-		
-	}
-
-	public List<String> getParagraphs() {
-		
-		return paragraphs;
-		
-	}
-
-	public int getTime() {
-		
-		return time;
-		
-	}
-
-	public void display(Player player) {
-		
-		new TitleTask(this, player, paragraphs, time * 5, time * 10, time * 5).runTaskTimer(this, 0, time * 20);
-		
-	}
-
-	public List<String> convertUUIDToString(List<UUID> list) {
-		
-		List<String> newList = new ArrayList<String>();
-		
-		for (UUID id : list) {
+		if(blindness) {
 			
-			newList.add(id.toString());
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, totalLength, 3));
 			
 		}
 		
-		return newList;
-	}
-
-	public List<UUID> convertStringToUUID(List<String> list) {
+		int timeIncrement = 10;
 		
-		List<UUID> newList = new ArrayList<UUID>();
-		
-		for (String s : list) {
+		for(Title t : titles) {
 			
-			newList.add(UUID.fromString(s));
+			Title run = t;
+			
+			run.setPlayer(player);
+			run.runTaskLater(Bukkit.getPluginManager().getPlugin("BoMC-Intro"), timeIncrement);
+			
+			timeIncrement += t.getTotalLength();
 			
 		}
 		
-		return newList;
-		
 	}
+	
 }

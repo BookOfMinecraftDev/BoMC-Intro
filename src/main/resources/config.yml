@@ -2,8 +2,5 @@
 # Made by Reyzerbit, Pocketkid2, Drofal980, and 20rzaugg
 # https://github.com/BookOfMinecraftDev
 
-# Time between each scene, in seconds
-time-between-messages: 5
-
 # Players who have seen the intro
-players-who-have-seen-intro:
+seen:
