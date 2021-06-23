@@ -2,6 +2,7 @@
 *.gitattributes
 *.project
 /.settings/*
+target/
 
 # Ignore Gradle project-specific cache directory
 .gradle
